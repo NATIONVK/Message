@@ -3,86 +3,153 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#160d19">
+  <meta name="theme-color" content="#100b16">
   <meta name="description" content="A little secret, wrapped in a letter.">
-  <title>A Secret For You ♥</title>
+  <title>For Someone Special ✦</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
+    :root{--ink:#f8edf1;--muted:#c7aebc;--rose:#d89aaa;--wine:#713d58;--gold:#d9c39a}
     *{box-sizing:border-box}
-    body{margin:0;min-height:100vh;display:grid;place-items:center;padding:24px;background:radial-gradient(circle at top,#49243d,#160d19 68%);color:#fff3ed;font-family:Georgia,serif;text-align:center}
-    .container{width:min(100%,480px);padding:20px}
-    .tag{letter-spacing:5px;color:#e7a6b9;font:11px Arial,sans-serif}
-    h1{font-size:clamp(30px,8vw,46px);font-weight:normal;margin:18px 0}
-    .subtitle{color:#d6b7c6;line-height:1.7}
-    .envelope{margin:46px auto 25px;width:230px;height:155px;position:relative;cursor:pointer;background:#a84f70;border-radius:5px;box-shadow:0 15px 50px #0008;transition:transform .4s;outline:none}
-    .envelope:hover,.envelope:focus-visible{transform:translateY(-7px)}
-    .flap{position:absolute;inset:0;background:#d17c99;clip-path:polygon(0 0,100% 0,50% 70%);transform-origin:top;transition:transform .8s;z-index:3}
-    .front{position:absolute;inset:0;background:linear-gradient(140deg,#a94d70,#79334f);clip-path:polygon(0 0,50% 55%,100% 0,100% 100%,0 100%);z-index:2}
-    .heart{position:absolute;z-index:4;top:45%;left:44%;font-size:29px}
-    .envelope.open .flap{transform:rotateX(180deg)}
-    .letter{display:none;background:#f9eddf;color:#533747;padding:28px 23px;border-radius:5px;line-height:1.9;text-align:left;box-shadow:0 15px 50px #0008}
-    .letter.show{display:block;animation:appear .8s ease}
-    .letter h2{text-align:center;font-weight:normal}
-    .letter p{white-space:pre-line}
-    .signature{text-align:right;color:#9b4b68}
-    button{border:1px solid #d28ba5;background:transparent;color:#ffeaf0;padding:13px 23px;border-radius:30px;cursor:pointer;font-size:14px;margin:10px}
-    button:hover{background:#a94d70}
-    .hint{font-size:12px;color:#d6a8ba}
-    footer{margin-top:40px;font:11px Arial,sans-serif;color:#a98b9c}
-    @keyframes appear{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-    @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+    html{scroll-behavior:smooth}
+    body{margin:0;min-height:100svh;overflow-x:hidden;background:#100b16;color:var(--ink);font-family:"DM Sans",sans-serif;display:grid;place-items:center;padding:34px 18px;position:relative}
+    body:before,body:after{content:"";position:fixed;inset:0;pointer-events:none}
+    body:before{background:radial-gradient(ellipse at 50% 12%,#63364d77,transparent 48%),radial-gradient(ellipse at 8% 85%,#38294c66,transparent 42%),radial-gradient(ellipse at 90% 70%,#6c344b44,transparent 38%)}
+    body:after{opacity:.18;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.25'/%3E%3C/svg%3E")}
+    .stars{position:fixed;inset:0;pointer-events:none;overflow:hidden}
+    .star{position:absolute;width:2px;height:2px;border-radius:50%;background:#f8e8ef;opacity:.5;animation:twinkle 4s ease-in-out infinite}
+    .star:nth-child(3n){animation-delay:1.4s}.star:nth-child(4n){animation-delay:2.5s}
+    .wrap{width:min(100%,590px);position:relative;z-index:1;text-align:center}
+    .eyebrow{font-size:10px;letter-spacing:.38em;text-transform:uppercase;color:var(--gold);font-weight:500}
+    .ornament{display:flex;align-items:center;justify-content:center;gap:13px;margin:18px 0 12px;color:var(--rose);font-size:13px}
+    .ornament:before,.ornament:after{content:"";height:1px;width:42px;background:linear-gradient(90deg,transparent,#b98296)}
+    .ornament:after{transform:rotate(180deg)}
+    h1{font-family:"Cormorant Garamond",Georgia,serif;font-weight:400;font-size:clamp(48px,11vw,76px);line-height:.96;letter-spacing:-.035em;margin:0;color:#fff4f5}
+    h1 em{font-weight:400;color:#e4afbd}
+    .intro{max-width:350px;margin:20px auto 0;color:var(--muted);font-size:13px;line-height:1.9;font-weight:300}
+    .scene{height:235px;display:grid;place-items:center;perspective:900px;margin:16px auto 0}
+    .envelope{width:238px;height:154px;position:relative;cursor:pointer;outline:none;filter:drop-shadow(0 22px 30px #0008);transition:transform .5s}
+    .envelope:hover,.envelope:focus-visible{transform:translateY(-6px) scale(1.025)}
+    .env-back{position:absolute;inset:0;background:linear-gradient(145deg,#b87589,#75445f);border-radius:5px}
+    .letter-peek{position:absolute;left:13px;right:13px;bottom:10px;height:125px;background:#f8eee4;border-radius:3px;transition:transform .8s cubic-bezier(.2,.8,.2,1);z-index:1}
+    .letter-peek:before{content:"";position:absolute;top:22px;left:22px;right:22px;height:1px;background:#d9c2b8;box-shadow:0 12px #e5d5ca,0 24px #e5d5ca}
+    .env-front{position:absolute;inset:0;background:linear-gradient(145deg,#a7657d,#67364f);clip-path:polygon(0 0,50% 57%,100% 0,100% 100%,0 100%);z-index:3;border-radius:0 0 5px 5px}
+    .env-flap{position:absolute;inset:0;background:linear-gradient(145deg,#d49aaa,#a65e7b);clip-path:polygon(0 0,100% 0,50% 67%);transform-origin:top;transition:transform .75s cubic-bezier(.2,.75,.2,1);z-index:4}
+    .seal{position:absolute;z-index:5;left:50%;top:53%;transform:translate(-50%,-50%);width:39px;height:39px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 35% 30%,#f0c8cf,#b66d83 70%);box-shadow:0 3px 10px #4c203b88;color:#fff1f3;font-size:18px;transition:opacity .3s,transform .4s}
+    .envelope.open .env-flap{transform:rotateX(180deg);z-index:0}
+    .envelope.open .seal{opacity:0;transform:translate(-50%,-50%) scale(.5)}
+    .envelope.open .letter-peek{transform:translateY(-70px);transition-delay:.25s}
+    .tap{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#cba9b8;margin-top:-3px}
+    .letter{display:none;position:relative;text-align:left;margin:4px auto 0;padding:clamp(25px,6vw,42px);max-width:510px;color:#493642;background:linear-gradient(145deg,#fff8ef,#f0e1d9);border:1px solid #fff8ef;border-radius:3px;box-shadow:0 25px 70px #0008;animation:rise .8s both}
+    .letter.show{display:block}
+    .letter:before{content:"";position:absolute;inset:8px;border:1px solid #d8c1b8;pointer-events:none}
+    .letter-top{text-align:center;color:#a66c80;font-size:10px;letter-spacing:.28em;text-transform:uppercase}
+    .letter h2{text-align:center;font-family:"Cormorant Garamond",Georgia,serif;font-size:36px;font-weight:500;margin:12px 0 20px;color:#613b50}
+    .letter p{white-space:pre-line;font-family:"Cormorant Garamond",Georgia,serif;font-size:20px;line-height:1.65;margin:0}
+    .signature{text-align:right!important;margin-top:25px!important;color:#98647a;font-style:italic}
+    .actions{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:20px 0 0}
+    button{font:500 10px "DM Sans",sans-serif;letter-spacing:.16em;text-transform:uppercase;padding:13px 19px;border:1px solid #9d7186;border-radius:2px;color:#f6e7ec;background:#ffffff08;cursor:pointer;transition:background .25s,border-color .25s,transform .25s}
+    button:hover{background:#a9678050;border-color:#d9a8b8;transform:translateY(-2px)}
+    .close{display:none}
+    .close.visible{display:inline-block}
+    footer{margin-top:44px;color:#8f7888;font-size:9px;letter-spacing:.24em;text-transform:uppercase}
+    .floating{position:fixed;bottom:-30px;color:#d99cad;opacity:0;pointer-events:none;animation:floatUp 9s linear infinite}
+    @keyframes twinkle{0%,100%{opacity:.18;transform:scale(.8)}50%{opacity:.8;transform:scale(1.5)}}
+    @keyframes rise{from{opacity:0;transform:translateY(25px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes floatUp{0%{transform:translateY(0) rotate(0deg);opacity:0}15%{opacity:.45}85%{opacity:.3}100%{transform:translateY(-110vh) rotate(35deg);opacity:0}}
+    @media(max-width:420px){body{padding:28px 15px}.scene{height:215px}.letter p{font-size:18px}.envelope{transform:scale(.92)}.envelope:hover,.envelope:focus-visible{transform:translateY(-5px) scale(.95)}}
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
   </style>
 </head>
 <body>
-  <main class="container">
-    <div class="tag">A LITTLE SECRET</div>
-    <h1>Something for you ♥</h1>
-    <p class="subtitle">Some feelings are difficult to say,<br>so I wrote them instead.</p>
+  <div class="stars" aria-hidden="true" id="stars"></div>
+  <main class="wrap">
+    <div class="eyebrow">A note from the heart</div>
+    <div class="ornament" aria-hidden="true">✦</div>
+    <h1>For <em>someone</em><br>special.</h1>
+    <p class="intro">Not everything beautiful needs to be said out loud.<br>Some feelings are meant to be unfolded slowly.</p>
 
-    <div class="envelope" id="envelope" role="button" tabindex="0" aria-label="Open your letter" aria-expanded="false">
-      <div class="flap"></div><div class="front"></div><div class="heart">♥</div>
+    <div class="scene">
+      <div class="envelope" id="envelope" role="button" tabindex="0" aria-label="Open your letter" aria-expanded="false">
+        <div class="env-back"></div>
+        <div class="letter-peek"></div>
+        <div class="env-front"></div>
+        <div class="env-flap"></div>
+        <div class="seal" aria-hidden="true">♥</div>
+      </div>
     </div>
-    <p class="hint" id="hint" aria-live="polite">Tap the envelope to open your letter</p>
+    <p class="tap" id="hint" aria-live="polite">✧ &nbsp; Tap to open your little secret &nbsp; ✧</p>
 
     <section class="letter" id="letter" aria-hidden="true">
+      <div class="letter-top">A little something, just for you</div>
       <h2>Dear Someone,</h2>
-      <p id="message">There are some people who make ordinary days feel special.
+      <p id="message">There are some people who make ordinary days feel quietly extraordinary.
 
-I don't know how to explain everything, but I wanted you to know that your presence means something beautiful.
+I don't know how to put every feeling into words, but I hope you know that your presence means something beautiful.
 
-Sometimes, a simple smile or a little conversation can make a day better.
+Sometimes, a simple smile or a little conversation can make an entire day softer.
 
-This little letter is just a reminder that someone is thinking of you.
+This letter carries no expectations. Just a gentle reminder that somewhere, someone is wishing you happiness.
 
-Stay happy. Always. ♥</p>
-      <p class="signature">With warmth,<br>Someone special ♡</p>
+Stay exactly as lovely as you are. ♥</p>
+      <p class="signature">With warmth,<br>Someone who cares ♡</p>
     </section>
 
-    <button id="reset" type="button">Close the letter ↺</button>
-    <footer>MADE WITH LOVE · NATIONVK</footer>
+    <div class="actions">
+      <button id="reveal" type="button">Open the letter ↗</button>
+      <button class="close" id="reset" type="button">Fold it away ↺</button>
+    </div>
+    <footer>Made of quiet feelings · NATIONVK</footer>
   </main>
   <script>
     const envelope=document.getElementById('envelope');
     const letter=document.getElementById('letter');
     const hint=document.getElementById('hint');
+    const reset=document.getElementById('reset');
+    const reveal=document.getElementById('reveal');
     function openLetter(){
       envelope.classList.add('open');
       envelope.setAttribute('aria-expanded','true');
       letter.classList.add('show');
       letter.setAttribute('aria-hidden','false');
-      hint.textContent='A little message, just for you ♥';
+      hint.textContent='✧ A message, kept just for you ✧';
+      reset.classList.add('visible');
+      reveal.style.display='none';
     }
     function closeLetter(){
       envelope.classList.remove('open');
       envelope.setAttribute('aria-expanded','false');
       letter.classList.remove('show');
       letter.setAttribute('aria-hidden','true');
-      hint.textContent='Tap the envelope to open your letter';
+      hint.textContent='✧ Tap to open your little secret ✧';
+      reset.classList.remove('visible');
+      reveal.style.display='inline-block';
     }
     envelope.addEventListener('click',openLetter);
     envelope.addEventListener('keydown',event=>{
       if(event.key==='Enter'||event.key===' '){event.preventDefault();openLetter();}
     });
-    document.getElementById('reset').addEventListener('click',closeLetter);
+    reveal.addEventListener('click',openLetter);
+    reset.addEventListener('click',closeLetter);
+    const stars=document.getElementById('stars');
+    for(let i=0;i<48;i++){
+      const star=document.createElement('span');
+      star.className='star';
+      star.style.left=(Math.random()*100)+'%';
+      star.style.top=(Math.random()*100)+'%';
+      star.style.animationDelay=(Math.random()*4)+'s';
+      stars.appendChild(star);
+    }
+    for(let i=0;i<7;i++){
+      const petal=document.createElement('span');
+      petal.className='floating';
+      petal.textContent=i%2?'✧':'♡';
+      petal.style.left=(8+Math.random()*84)+'%';
+      petal.style.animationDelay=(Math.random()*9)+'s';
+      petal.style.fontSize=(12+Math.random()*12)+'px';
+      document.body.appendChild(petal);
+    }
   </script>
 </body>
 </html>
