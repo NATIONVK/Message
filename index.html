@@ -28,7 +28,7 @@
     h1{font-family:"Cormorant Garamond",Georgia,serif;font-weight:400;font-size:clamp(48px,11vw,76px);line-height:.96;letter-spacing:-.035em;margin:0;color:#fff4f5}
     h1 em{font-weight:400;color:#e4afbd}
     .intro{max-width:350px;margin:20px auto 0;color:var(--muted);font-size:13px;line-height:1.9;font-weight:300}
-    .scene{height:235px;display:grid;place-items:center;perspective:900px;margin:16px auto 0}
+    .scene{height:250px;display:grid;place-items:center;perspective:1000px;margin:16px auto 0;position:relative;transform-style:preserve-3d}\n    .orbit{position:absolute;width:285px;height:170px;border:1px solid #dba9bc55;border-radius:50%;transform:rotateX(67deg) rotateZ(-18deg);animation:orbitSpin 13s linear infinite;pointer-events:none;box-shadow:0 0 24px #c77f9a12}\n    .orbit:before,.orbit:after{content:\"\";position:absolute;width:7px;height:7px;border-radius:50%;background:#f3c5d1;box-shadow:0 0 15px 4px #d98da866}\n    .orbit:before{top:18px;left:35px}.orbit:after{right:24px;bottom:28px;width:5px;height:5px}\n    .envelope{transform-style:preserve-3d;will-change:transform}\n    .env-back{transform:translateZ(-2px)}\n    .letter-peek{transform:translateZ(5px)}\n    .env-front{transform:translateZ(10px)}\n    .env-flap{backface-visibility:visible;transform:translateZ(12px) rotateX(0deg)}\n    .seal{transform:translate(-50%,-50%) translateZ(18px)}\n    .envelope.open .env-flap{transform:translateZ(12px) rotateX(180deg)}\n    .envelope.open .seal{transform:translate(-50%,-50%) translateZ(18px) scale(.5)}
     .envelope{width:238px;height:154px;position:relative;cursor:pointer;outline:none;filter:drop-shadow(0 22px 30px #0008);transition:transform .5s}
     .envelope:hover,.envelope:focus-visible{transform:translateY(-6px) scale(1.025)}
     .env-back{position:absolute;inset:0;background:linear-gradient(145deg,#b87589,#75445f);border-radius:5px}
@@ -55,7 +55,7 @@
     .close.visible{display:inline-block}
     footer{margin-top:44px;color:#8f7888;font-size:9px;letter-spacing:.24em;text-transform:uppercase}
     .floating{position:fixed;bottom:-30px;color:#d99cad;opacity:0;pointer-events:none;animation:floatUp 9s linear infinite}
-    @keyframes twinkle{0%,100%{opacity:.18;transform:scale(.8)}50%{opacity:.8;transform:scale(1.5)}}
+    @keyframes orbitSpin{from{transform:rotateX(67deg) rotateZ(-18deg)}to{transform:rotateX(67deg) rotateZ(342deg)}}\n    @keyframes twinkle{0%,100%{opacity:.18;transform:scale(.8)}50%{opacity:.8;transform:scale(1.5)}}
     @keyframes rise{from{opacity:0;transform:translateY(25px)}to{opacity:1;transform:translateY(0)}}
     @keyframes floatUp{0%{transform:translateY(0) rotate(0deg);opacity:0}15%{opacity:.45}85%{opacity:.3}100%{transform:translateY(-110vh) rotate(35deg);opacity:0}}
     @media(max-width:420px){body{padding:28px 15px}.scene{height:215px}.letter p{font-size:18px}.envelope{transform:scale(.92)}.envelope:hover,.envelope:focus-visible{transform:translateY(-5px) scale(.95)}}
@@ -71,7 +71,7 @@
     <p class="intro">Not everything beautiful needs to be said out loud.<br>Some feelings are meant to be unfolded slowly.</p>
 
     <div class="scene">
-      <div class="envelope" id="envelope" role="button" tabindex="0" aria-label="Open your letter" aria-expanded="false">
+      <div class="orbit" aria-hidden="true"></div>\n      <div class="envelope" id="envelope" role="button" tabindex="0" aria-label="Open your letter" aria-expanded="false">
         <div class="env-back"></div>
         <div class="letter-peek"></div>
         <div class="env-front"></div>
@@ -126,7 +126,7 @@ Stay exactly as lovely as you are. ♥</p>
       reset.classList.remove('visible');
       reveal.style.display='inline-block';
     }
-    envelope.addEventListener('click',openLetter);
+    envelope.addEventListener('click',openLetter);\n    // Gentle 3D tilt follows pointer movement; touch users still get the full open animation.\n    envelope.addEventListener('pointermove',event=>{\n      if(event.pointerType==='touch'||envelope.classList.contains('open'))return;\n      const rect=envelope.getBoundingClientRect();\n      const x=(event.clientX-rect.left)/rect.width-.5;\n      const y=(event.clientY-rect.top)/rect.height-.5;\n      envelope.style.transform=`rotateX(${-y*12}deg) rotateY(${x*15}deg) translateY(-5px)`;\n    });\n    envelope.addEventListener('pointerleave',()=>{if(!envelope.classList.contains('open'))envelope.style.transform='';});
     envelope.addEventListener('keydown',event=>{
       if(event.key==='Enter'||event.key===' '){event.preventDefault();openLetter();}
     });
