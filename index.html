@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#160d19">
+  <meta name="description" content="A little secret, wrapped in a letter.">
+  <title>A Secret For You ♥</title>
+  <style>
+    *{box-sizing:border-box}
+    body{margin:0;min-height:100vh;display:grid;place-items:center;padding:24px;background:radial-gradient(circle at top,#49243d,#160d19 68%);color:#fff3ed;font-family:Georgia,serif;text-align:center}
+    .container{width:min(100%,480px);padding:20px}
+    .tag{letter-spacing:5px;color:#e7a6b9;font:11px Arial,sans-serif}
+    h1{font-size:clamp(30px,8vw,46px);font-weight:normal;margin:18px 0}
+    .subtitle{color:#d6b7c6;line-height:1.7}
+    .envelope{margin:46px auto 25px;width:230px;height:155px;position:relative;cursor:pointer;background:#a84f70;border-radius:5px;box-shadow:0 15px 50px #0008;transition:transform .4s;outline:none}
+    .envelope:hover,.envelope:focus-visible{transform:translateY(-7px)}
+    .flap{position:absolute;inset:0;background:#d17c99;clip-path:polygon(0 0,100% 0,50% 70%);transform-origin:top;transition:transform .8s;z-index:3}
+    .front{position:absolute;inset:0;background:linear-gradient(140deg,#a94d70,#79334f);clip-path:polygon(0 0,50% 55%,100% 0,100% 100%,0 100%);z-index:2}
+    .heart{position:absolute;z-index:4;top:45%;left:44%;font-size:29px}
+    .envelope.open .flap{transform:rotateX(180deg)}
+    .letter{display:none;background:#f9eddf;color:#533747;padding:28px 23px;border-radius:5px;line-height:1.9;text-align:left;box-shadow:0 15px 50px #0008}
+    .letter.show{display:block;animation:appear .8s ease}
+    .letter h2{text-align:center;font-weight:normal}
+    .letter p{white-space:pre-line}
+    .signature{text-align:right;color:#9b4b68}
+    button{border:1px solid #d28ba5;background:transparent;color:#ffeaf0;padding:13px 23px;border-radius:30px;cursor:pointer;font-size:14px;margin:10px}
+    button:hover{background:#a94d70}
+    .hint{font-size:12px;color:#d6a8ba}
+    footer{margin-top:40px;font:11px Arial,sans-serif;color:#a98b9c}
+    @keyframes appear{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+  </style>
+</head>
+<body>
+  <main class="container">
+    <div class="tag">A LITTLE SECRET</div>
+    <h1>Something for you ♥</h1>
+    <p class="subtitle">Some feelings are difficult to say,<br>so I wrote them instead.</p>
+
+    <div class="envelope" id="envelope" role="button" tabindex="0" aria-label="Open your letter" aria-expanded="false">
+      <div class="flap"></div><div class="front"></div><div class="heart">♥</div>
+    </div>
+    <p class="hint" id="hint" aria-live="polite">Tap the envelope to open your letter</p>
+
+    <section class="letter" id="letter" aria-hidden="true">
+      <h2>Dear Someone,</h2>
+      <p id="message">There are some people who make ordinary days feel special.
+
+I don't know how to explain everything, but I wanted you to know that your presence means something beautiful.
+
+Sometimes, a simple smile or a little conversation can make a day better.
+
+This little letter is just a reminder that someone is thinking of you.
+
+Stay happy. Always. ♥</p>
+      <p class="signature">With warmth,<br>Someone special ♡</p>
+    </section>
+
+    <button id="reset" type="button">Close the letter ↺</button>
+    <footer>MADE WITH LOVE · NATIONVK</footer>
+  </main>
+  <script>
+    const envelope=document.getElementById('envelope');
+    const letter=document.getElementById('letter');
+    const hint=document.getElementById('hint');
+    function openLetter(){
+      envelope.classList.add('open');
+      envelope.setAttribute('aria-expanded','true');
+      letter.classList.add('show');
+      letter.setAttribute('aria-hidden','false');
+      hint.textContent='A little message, just for you ♥';
+    }
+    function closeLetter(){
+      envelope.classList.remove('open');
+      envelope.setAttribute('aria-expanded','false');
+      letter.classList.remove('show');
+      letter.setAttribute('aria-hidden','true');
+      hint.textContent='Tap the envelope to open your letter';
+    }
+    envelope.addEventListener('click',openLetter);
+    envelope.addEventListener('keydown',event=>{
+      if(event.key==='Enter'||event.key===' '){event.preventDefault();openLetter();}
+    });
+    document.getElementById('reset').addEventListener('click',closeLetter);
+  </script>
+</body>
+</html>
