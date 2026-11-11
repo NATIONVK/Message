@@ -4,65 +4,184 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#100b16">
-  <meta name="description" content="A little secret, wrapped in a letter.">
+  <meta name="description" content="A little secret, wrapped in a letter. An intimate interactive note from NATIONVK.">
   <title>For Someone Special ✦</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
-    :root{--ink:#f8edf1;--muted:#c7aebc;--rose:#d89aaa;--wine:#713d58;--gold:#d9c39a}
-    *{box-sizing:border-box}
-    html{scroll-behavior:smooth}
-    body{margin:0;min-height:100svh;overflow-x:hidden;background:#100b16;color:var(--ink);font-family:"DM Sans",sans-serif;display:grid;place-items:center;padding:34px 18px;position:relative}
-    body:before,body:after{content:"";position:fixed;inset:0;pointer-events:none}
-    body:before{background:radial-gradient(ellipse at 50% 12%,#63364d77,transparent 48%),radial-gradient(ellipse at 8% 85%,#38294c66,transparent 42%),radial-gradient(ellipse at 90% 70%,#6c344b44,transparent 38%)}
-    body:after{opacity:.18;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.25'/%3E%3C/svg%3E")}
-    .stars{position:fixed;inset:0;pointer-events:none;overflow:hidden}
-    .star{position:absolute;width:2px;height:2px;border-radius:50%;background:#f8e8ef;opacity:.5;animation:twinkle 4s ease-in-out infinite}
-    .star:nth-child(3n){animation-delay:1.4s}.star:nth-child(4n){animation-delay:2.5s}
-    .wrap{width:min(100%,590px);position:relative;z-index:1;text-align:center}
-    .eyebrow{font-size:10px;letter-spacing:.38em;text-transform:uppercase;color:var(--gold);font-weight:500}
-    .ornament{display:flex;align-items:center;justify-content:center;gap:13px;margin:18px 0 12px;color:var(--rose);font-size:13px}
-    .ornament:before,.ornament:after{content:"";height:1px;width:42px;background:linear-gradient(90deg,transparent,#b98296)}
-    .ornament:after{transform:rotate(180deg)}
-    h1{font-family:"Cormorant Garamond",Georgia,serif;font-weight:400;font-size:clamp(48px,11vw,76px);line-height:.96;letter-spacing:-.035em;margin:0;color:#fff4f5}
-    h1 em{font-weight:400;color:#e4afbd}
-    .intro{max-width:350px;margin:20px auto 0;color:var(--muted);font-size:13px;line-height:1.9;font-weight:300}
-    .scene{height:250px;display:grid;place-items:center;perspective:1000px;margin:16px auto 0;position:relative;transform-style:preserve-3d}\n    .orbit{position:absolute;width:285px;height:170px;border:1px solid #dba9bc55;border-radius:50%;transform:rotateX(67deg) rotateZ(-18deg);animation:orbitSpin 13s linear infinite;pointer-events:none;box-shadow:0 0 24px #c77f9a12}\n    .orbit:before,.orbit:after{content:\"\";position:absolute;width:7px;height:7px;border-radius:50%;background:#f3c5d1;box-shadow:0 0 15px 4px #d98da866}\n    .orbit:before{top:18px;left:35px}.orbit:after{right:24px;bottom:28px;width:5px;height:5px}\n    .envelope{transform-style:preserve-3d;will-change:transform}\n    .env-back{transform:translateZ(-2px)}\n    .letter-peek{transform:translateZ(5px)}\n    .env-front{transform:translateZ(10px)}\n    .env-flap{backface-visibility:visible;transform:translateZ(12px) rotateX(0deg)}\n    .seal{transform:translate(-50%,-50%) translateZ(18px)}\n    .envelope.open .env-flap{transform:translateZ(12px) rotateX(180deg)}\n    .envelope.open .seal{transform:translate(-50%,-50%) translateZ(18px) scale(.5)}
-    .envelope{width:238px;height:154px;position:relative;cursor:pointer;outline:none;filter:drop-shadow(0 22px 30px #0008);transition:transform .5s}
-    .envelope:hover,.envelope:focus-visible{transform:translateY(-6px) scale(1.025)}
-    .env-back{position:absolute;inset:0;background:linear-gradient(145deg,#b87589,#75445f);border-radius:5px}
-    .letter-peek{position:absolute;left:13px;right:13px;bottom:10px;height:125px;background:#f8eee4;border-radius:3px;transition:transform .8s cubic-bezier(.2,.8,.2,1);z-index:1}
-    .letter-peek:before{content:"";position:absolute;top:22px;left:22px;right:22px;height:1px;background:#d9c2b8;box-shadow:0 12px #e5d5ca,0 24px #e5d5ca}
-    .env-front{position:absolute;inset:0;background:linear-gradient(145deg,#a7657d,#67364f);clip-path:polygon(0 0,50% 57%,100% 0,100% 100%,0 100%);z-index:3;border-radius:0 0 5px 5px}
-    .env-flap{position:absolute;inset:0;background:linear-gradient(145deg,#d49aaa,#a65e7b);clip-path:polygon(0 0,100% 0,50% 67%);transform-origin:top;transition:transform .75s cubic-bezier(.2,.75,.2,1);z-index:4}
-    .seal{position:absolute;z-index:5;left:50%;top:53%;transform:translate(-50%,-50%);width:39px;height:39px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 35% 30%,#f0c8cf,#b66d83 70%);box-shadow:0 3px 10px #4c203b88;color:#fff1f3;font-size:18px;transition:opacity .3s,transform .4s}
-    .envelope.open .env-flap{transform:rotateX(180deg);z-index:0}
-    .envelope.open .seal{opacity:0;transform:translate(-50%,-50%) scale(.5)}
-    .envelope.open .letter-peek{transform:translateY(-70px);transition-delay:.25s}
-    .tap{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#cba9b8;margin-top:-3px}
-    .letter{display:none;position:relative;text-align:left;margin:4px auto 0;padding:clamp(25px,6vw,42px);max-width:510px;color:#493642;background:linear-gradient(145deg,#fff8ef,#f0e1d9);border:1px solid #fff8ef;border-radius:3px;box-shadow:0 25px 70px #0008;animation:rise .8s both}
-    .letter.show{display:block}
-    .letter:before{content:"";position:absolute;inset:8px;border:1px solid #d8c1b8;pointer-events:none}
-    .letter-top{text-align:center;color:#a66c80;font-size:10px;letter-spacing:.28em;text-transform:uppercase}
-    .letter h2{text-align:center;font-family:"Cormorant Garamond",Georgia,serif;font-size:36px;font-weight:500;margin:12px 0 20px;color:#613b50}
-    .letter p{white-space:pre-line;font-family:"Cormorant Garamond",Georgia,serif;font-size:20px;line-height:1.65;margin:0}
-    .signature{text-align:right!important;margin-top:25px!important;color:#98647a;font-style:italic}
-    .actions{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:20px 0 0}
-    button{font:500 10px "DM Sans",sans-serif;letter-spacing:.16em;text-transform:uppercase;padding:13px 19px;border:1px solid #9d7186;border-radius:2px;color:#f6e7ec;background:#ffffff08;cursor:pointer;transition:background .25s,border-color .25s,transform .25s}
-    button:hover{background:#a9678050;border-color:#d9a8b8;transform:translateY(-2px)}
-    .close{display:none}
-    .close.visible{display:inline-block}
-    footer{margin-top:44px;color:#8f7888;font-size:9px;letter-spacing:.24em;text-transform:uppercase}
-    .floating{position:fixed;bottom:-30px;color:#d99cad;opacity:0;pointer-events:none;animation:floatUp 9s linear infinite}
-    @keyframes orbitSpin{from{transform:rotateX(67deg) rotateZ(-18deg)}to{transform:rotateX(67deg) rotateZ(342deg)}}\n    @keyframes twinkle{0%,100%{opacity:.18;transform:scale(.8)}50%{opacity:.8;transform:scale(1.5)}}
-    @keyframes rise{from{opacity:0;transform:translateY(25px)}to{opacity:1;transform:translateY(0)}}
-    @keyframes floatUp{0%{transform:translateY(0) rotate(0deg);opacity:0}15%{opacity:.45}85%{opacity:.3}100%{transform:translateY(-110vh) rotate(35deg);opacity:0}}
-    @media(max-width:420px){body{padding:28px 15px}.scene{height:215px}.letter p{font-size:18px}.envelope{transform:scale(.92)}.envelope:hover,.envelope:focus-visible{transform:translateY(-5px) scale(.95)}}
-    @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+    :root {
+      color-scheme: dark;
+      --ink: #fff4f6;
+      --muted: #c9b1bf;
+      --rose: #e1a8b9;
+      --rose-bright: #f2c8d2;
+      --wine: #713d58;
+      --gold: #e3cca3;
+      --ease: cubic-bezier(.2,.8,.2,1);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0; min-height: 100svh; overflow-x: hidden; isolation: isolate;
+      display: grid; place-items: center; padding: 38px 18px 24px;
+      color: var(--ink); background: #100b16;
+      font-family: "DM Sans", sans-serif;
+    }
+    body::before, body::after { content: ""; position: fixed; inset: 0; pointer-events: none; z-index: -2; }
+    body::before {
+      background:
+        radial-gradient(ellipse at 50% 12%, #75405780, transparent 48%),
+        radial-gradient(ellipse at 8% 85%, #38294c80, transparent 42%),
+        radial-gradient(ellipse at 92% 72%, #71384c55, transparent 38%),
+        linear-gradient(145deg, #100b16, #1b101d 52%, #100b16);
+    }
+    body::after {
+      z-index: 4; opacity: .12;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E");
+    }
+    .ambient, .stars { position: fixed; inset: 0; overflow: hidden; pointer-events: none; }
+    .ambient { z-index: -1; }
+    .glow {
+      position: absolute; width: 34vw; aspect-ratio: 1; min-width: 220px; border-radius: 50%;
+      filter: blur(75px); opacity: .12; background: #c87998; animation: drift 18s ease-in-out infinite alternate;
+    }
+    .glow.one { left: -12%; top: 16%; }
+    .glow.two { right: -14%; bottom: 2%; background: #8e6ca8; animation-delay: -8s; }
+    .stars { z-index: 0; }
+    .star {
+      position: absolute; width: 2px; height: 2px; border-radius: 50%;
+      background: #fff1f5; box-shadow: 0 0 9px 2px #f4c5d655;
+      opacity: .35; animation: twinkle 4.5s ease-in-out infinite;
+    }
+    .star:nth-child(3n) { animation-delay: 1.4s; }
+    .star:nth-child(4n) { animation-delay: 2.5s; }
+    .wrap { width: min(100%, 640px); position: relative; z-index: 1; text-align: center; }
+    .eyebrow { color: var(--gold); font-size: 10px; letter-spacing: .4em; text-transform: uppercase; font-weight: 600; }
+    .ornament { display: flex; align-items: center; justify-content: center; gap: 13px; margin: 19px 0 13px; color: var(--rose); font-size: 13px; }
+    .ornament::before, .ornament::after { content: ""; height: 1px; width: 44px; background: linear-gradient(90deg, transparent, #c58a9e); }
+    .ornament::after { transform: rotate(180deg); }
+    h1 {
+      margin: 0; color: #fff5f6; font: 400 clamp(49px, 10vw, 82px)/.92 "Cormorant Garamond", Georgia, serif;
+      letter-spacing: -.045em; text-shadow: 0 8px 35px #0006;
+    }
+    h1 em { color: var(--rose-bright); font-weight: 400; }
+    .intro { max-width: 370px; margin: 21px auto 0; color: var(--muted); font-size: 13px; line-height: 1.95; font-weight: 300; }
+    .scene {
+      height: clamp(220px, 34vw, 275px); display: grid; place-items: center;
+      perspective: 1100px; transform-style: preserve-3d; position: relative; margin: 14px auto 0;
+    }
+    .orbit {
+      position: absolute; width: min(76vw, 310px); height: 175px; border: 1px solid #dba9bc55;
+      border-radius: 50%; transform: rotateX(68deg) rotateZ(-18deg);
+      animation: orbitSpin 18s linear infinite; box-shadow: 0 0 28px #c77f9a12;
+    }
+    .orbit::before, .orbit::after {
+      content: ""; position: absolute; width: 7px; height: 7px; border-radius: 50%;
+      background: #f3c5d1; box-shadow: 0 0 15px 4px #d98da866;
+    }
+    .orbit::before { top: 18px; left: 35px; }
+    .orbit::after { right: 24px; bottom: 28px; width: 5px; height: 5px; }
+    .envelope {
+      width: min(238px, 66vw); height: 154px; position: relative; cursor: pointer;
+      transform-style: preserve-3d; outline: none; filter: drop-shadow(0 24px 28px #0009);
+      transition: transform .45s var(--ease), filter .45s var(--ease);
+      -webkit-tap-highlight-color: transparent; will-change: transform;
+    }
+    .envelope:hover, .envelope:focus-visible { filter: drop-shadow(0 30px 34px #000b); }
+    .env-back {
+      position: absolute; inset: 0; border-radius: 5px;
+      background: linear-gradient(145deg, #c48698, #75445f 75%);
+      box-shadow: inset 0 1px #f8d5dd66, inset 0 -1px #34192e88;
+      transform: translateZ(-2px);
+    }
+    .letter-peek {
+      position: absolute; left: 13px; right: 13px; bottom: 10px; height: 125px;
+      border-radius: 3px; z-index: 1; background: linear-gradient(145deg, #fffaf1, #edddd4);
+      box-shadow: 0 2px 8px #30182744; transform: translateZ(5px);
+      transition: transform .85s var(--ease);
+    }
+    .letter-peek::before {
+      content: ""; position: absolute; top: 22px; left: 22px; right: 22px; height: 1px;
+      background: #d9c2b8; box-shadow: 0 12px #e5d5ca, 0 24px #e5d5ca;
+    }
+    .env-front {
+      position: absolute; inset: 0; z-index: 3; border-radius: 0 0 5px 5px;
+      background: linear-gradient(145deg, #b8758c, #67364f);
+      clip-path: polygon(0 0, 50% 57%, 100% 0, 100% 100%, 0 100%);
+      transform: translateZ(10px);
+    }
+    .env-flap {
+      position: absolute; inset: 0; z-index: 4; transform-origin: top; transform: translateZ(12px) rotateX(0);
+      background: linear-gradient(145deg, #e1adbb, #a65e7b);
+      clip-path: polygon(0 0, 100% 0, 50% 67%);
+      transition: transform .8s var(--ease), filter .8s var(--ease);
+      backface-visibility: visible;
+    }
+    .seal {
+      position: absolute; z-index: 5; left: 50%; top: 53%;
+      width: 39px; height: 39px; display: grid; place-items: center; border-radius: 50%;
+      color: #fff1f3; font-size: 18px; transform: translate(-50%, -50%) translateZ(18px);
+      background: radial-gradient(circle at 35% 30%, #f0c8cf, #b66d83 70%);
+      box-shadow: 0 3px 10px #4c203b88, inset 0 1px #fff8; transition: opacity .3s, transform .4s;
+    }
+    .envelope.open .env-flap { transform: translateZ(12px) rotateX(180deg); }
+    .envelope.open .seal { opacity: 0; transform: translate(-50%, -50%) translateZ(18px) scale(.5); }
+    .envelope.open .letter-peek { transform: translateY(-70px) translateZ(5px); transition-delay: .22s; }
+    .tap { margin: -2px 0 0; color: #d4b5c3; font-size: 10px; letter-spacing: .2em; text-transform: uppercase; }
+    .letter {
+      display: none; position: relative; max-width: 520px; margin: 10px auto 0; padding: clamp(28px, 6vw, 46px);
+      text-align: left; color: #493642; border: 1px solid #fff8ef; border-radius: 4px;
+      background: linear-gradient(145deg, #fff9f1, #f0e1d9);
+      box-shadow: 0 28px 85px #0009, 0 0 0 1px #d8a9b533; animation: rise .8s both;
+    }
+    .letter.show { display: block; }
+    .letter::before { content: ""; position: absolute; inset: 9px; border: 1px solid #d8c1b8; pointer-events: none; }
+    .letter-top { position: relative; text-align: center; color: #a66c80; font-size: 10px; letter-spacing: .28em; text-transform: uppercase; }
+    .letter h2 { position: relative; margin: 13px 0 20px; text-align: center; color: #613b50; font: 500 38px/1.1 "Cormorant Garamond", Georgia, serif; }
+    .letter p { position: relative; margin: 0; white-space: pre-line; font: 400 20px/1.65 "Cormorant Garamond", Georgia, serif; }
+    .letter .signature { margin-top: 25px; text-align: right; color: #98647a; font-style: italic; }
+    .actions { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin: 22px 0 0; }
+    button {
+      min-height: 46px; padding: 13px 20px; border: 1px solid #a77c90; border-radius: 3px;
+      color: #f6e7ec; background: #ffffff08; cursor: pointer;
+      font: 600 10px "DM Sans", sans-serif; letter-spacing: .16em; text-transform: uppercase;
+      transition: background .25s, border-color .25s, transform .25s, box-shadow .25s;
+    }
+    button:hover { background: #a9678050; border-color: #e3b2c1; transform: translateY(-2px); box-shadow: 0 8px 22px #0003; }
+    button:focus-visible, .envelope:focus-visible { outline: 2px solid var(--gold); outline-offset: 5px; }
+    .close { display: none; }
+    .close.visible { display: inline-block; }
+    footer { margin-top: 43px; color: #9d8595; font-size: 9px; letter-spacing: .24em; text-transform: uppercase; }
+    .floating {
+      position: fixed; bottom: -30px; color: #e1a8b9; opacity: 0; pointer-events: none;
+      animation: floatUp 10s linear infinite;
+    }
+    @keyframes orbitSpin { from { transform: rotateX(68deg) rotateZ(-18deg); } to { transform: rotateX(68deg) rotateZ(342deg); } }
+    @keyframes twinkle { 0%,100% { opacity: .16; transform: scale(.8); } 50% { opacity: .85; transform: scale(1.55); } }
+    @keyframes rise { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes floatUp { 0% { transform: translateY(0) rotate(0); opacity: 0; } 15% { opacity: .42; } 85% { opacity: .28; } 100% { transform: translateY(-110vh) rotate(35deg); opacity: 0; } }
+    @keyframes drift { from { transform: translate3d(0,0,0) scale(.9); } to { transform: translate3d(12vw,-8vh,0) scale(1.2); } }
+    @media (max-width: 520px) {
+      body { padding: 30px 15px 22px; }
+      .scene { height: 225px; }
+      .letter { padding: 29px 25px; }
+      .letter p { font-size: 18px; }
+      footer { margin-top: 35px; }
+    }
+    @media (max-width: 360px) {
+      h1 { font-size: 48px; }
+      .intro { font-size: 12px; }
+      .letter h2 { font-size: 33px; }
+      .letter p { font-size: 17px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+    }
   </style>
 </head>
 <body>
+  <div class="ambient" aria-hidden="true"><span class="glow one"></span><span class="glow two"></span></div>
   <div class="stars" aria-hidden="true" id="stars"></div>
   <main class="wrap">
     <div class="eyebrow">A note from the heart</div>
@@ -71,7 +190,8 @@
     <p class="intro">Not everything beautiful needs to be said out loud.<br>Some feelings are meant to be unfolded slowly.</p>
 
     <div class="scene">
-      <div class="orbit" aria-hidden="true"></div>\n      <div class="envelope" id="envelope" role="button" tabindex="0" aria-label="Open your letter" aria-expanded="false">
+      <div class="orbit" aria-hidden="true"></div>
+      <div class="envelope" id="envelope" role="button" tabindex="0" aria-label="Open your letter" aria-expanded="false">
         <div class="env-back"></div>
         <div class="letter-peek"></div>
         <div class="env-front"></div>
@@ -103,52 +223,75 @@ Stay exactly as lovely as you are. ♥</p>
     <footer>Made of quiet feelings · NATIONVK</footer>
   </main>
   <script>
-    const envelope=document.getElementById('envelope');
-    const letter=document.getElementById('letter');
-    const hint=document.getElementById('hint');
-    const reset=document.getElementById('reset');
-    const reveal=document.getElementById('reveal');
-    function openLetter(){
-      envelope.classList.add('open');
-      envelope.setAttribute('aria-expanded','true');
-      letter.classList.add('show');
-      letter.setAttribute('aria-hidden','false');
-      hint.textContent='✧ A message, kept just for you ✧';
-      reset.classList.add('visible');
-      reveal.style.display='none';
+    const envelope = document.getElementById("envelope");
+    const letter = document.getElementById("letter");
+    const hint = document.getElementById("hint");
+    const reset = document.getElementById("reset");
+    const reveal = document.getElementById("reveal");
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    function openLetter() {
+      envelope.classList.add("open");
+      envelope.setAttribute("aria-expanded", "true");
+      letter.classList.add("show");
+      letter.setAttribute("aria-hidden", "false");
+      hint.textContent = "✧ A message, kept just for you ✧";
+      reset.classList.add("visible");
+      reveal.hidden = true;
     }
-    function closeLetter(){
-      envelope.classList.remove('open');
-      envelope.setAttribute('aria-expanded','false');
-      letter.classList.remove('show');
-      letter.setAttribute('aria-hidden','true');
-      hint.textContent='✧ Tap to open your little secret ✧';
-      reset.classList.remove('visible');
-      reveal.style.display='inline-block';
+    function closeLetter() {
+      envelope.classList.remove("open");
+      envelope.setAttribute("aria-expanded", "false");
+      letter.classList.remove("show");
+      letter.setAttribute("aria-hidden", "true");
+      hint.textContent = "✧ Tap to open your little secret ✧";
+      reset.classList.remove("visible");
+      reveal.hidden = false;
+      envelope.focus();
     }
-    envelope.addEventListener('click',openLetter);\n    // Gentle 3D tilt follows pointer movement; touch users still get the full open animation.\n    envelope.addEventListener('pointermove',event=>{\n      if(event.pointerType==='touch'||envelope.classList.contains('open'))return;\n      const rect=envelope.getBoundingClientRect();\n      const x=(event.clientX-rect.left)/rect.width-.5;\n      const y=(event.clientY-rect.top)/rect.height-.5;\n      envelope.style.transform=`rotateX(${-y*12}deg) rotateY(${x*15}deg) translateY(-5px)`;\n    });\n    envelope.addEventListener('pointerleave',()=>{if(!envelope.classList.contains('open'))envelope.style.transform='';});
-    envelope.addEventListener('keydown',event=>{
-      if(event.key==='Enter'||event.key===' '){event.preventDefault();openLetter();}
+    envelope.addEventListener("click", openLetter);
+    envelope.addEventListener("keydown", event => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        openLetter();
+      }
     });
-    reveal.addEventListener('click',openLetter);
-    reset.addEventListener('click',closeLetter);
-    const stars=document.getElementById('stars');
-    for(let i=0;i<48;i++){
-      const star=document.createElement('span');
-      star.className='star';
-      star.style.left=(Math.random()*100)+'%';
-      star.style.top=(Math.random()*100)+'%';
-      star.style.animationDelay=(Math.random()*4)+'s';
+    reveal.addEventListener("click", openLetter);
+    reset.addEventListener("click", closeLetter);
+
+    if (!reduceMotion && window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+      envelope.addEventListener("pointermove", event => {
+        if (envelope.classList.contains("open")) return;
+        const rect = envelope.getBoundingClientRect();
+        const x = (event.clientX - rect.left) / rect.width - .5;
+        const y = (event.clientY - rect.top) / rect.height - .5;
+        envelope.style.transform = `rotateX(${-y * 13}deg) rotateY(${x * 17}deg) translateY(-5px)`;
+      });
+      envelope.addEventListener("pointerleave", () => {
+        if (!envelope.classList.contains("open")) envelope.style.transform = "";
+      });
+    }
+
+    const stars = document.getElementById("stars");
+    const starCount = window.innerWidth < 600 ? 28 : 52;
+    for (let i = 0; i < starCount; i++) {
+      const star = document.createElement("span");
+      star.className = "star";
+      star.style.left = (Math.random() * 100) + "%";
+      star.style.top = (Math.random() * 100) + "%";
+      star.style.animationDelay = (Math.random() * 4) + "s";
       stars.appendChild(star);
     }
-    for(let i=0;i<7;i++){
-      const petal=document.createElement('span');
-      petal.className='floating';
-      petal.textContent=i%2?'✧':'♡';
-      petal.style.left=(8+Math.random()*84)+'%';
-      petal.style.animationDelay=(Math.random()*9)+'s';
-      petal.style.fontSize=(12+Math.random()*12)+'px';
-      document.body.appendChild(petal);
+    if (!reduceMotion) {
+      for (let i = 0; i < 7; i++) {
+        const petal = document.createElement("span");
+        petal.className = "floating";
+        petal.textContent = i % 2 ? "✧" : "♡";
+        petal.style.left = (8 + Math.random() * 84) + "%";
+        petal.style.animationDelay = (Math.random() * 9) + "s";
+        petal.style.fontSize = (12 + Math.random() * 12) + "px";
+        document.body.appendChild(petal);
+      }
     }
   </script>
 </body>
