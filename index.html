@@ -439,7 +439,7 @@ Stay exactly as lovely as you are. ♥</p>
       const fullText = "Dear " + recipientDisplay.textContent + ". " + messageText +
         ". With warmth, " + senderDisplay.textContent + ".";
       const utterance = new SpeechSynthesisUtterance(fullText);
-      const isBangla = /[\\u0980-\\u09FF]/.test(fullText);
+      const isBangla = /[\u0980-\u09FF]/.test(fullText);
       utterance.lang = isBangla ? "bn-BD" : "en-US";
       const availableVoices = window.speechSynthesis.getVoices();
       const preferredVoice = availableVoices.find(voice => voice.lang.toLowerCase() === utterance.lang.toLowerCase()) ||
