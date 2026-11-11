@@ -180,6 +180,16 @@
     .personalize textarea { min-height: 130px; resize: vertical; }
     .personalize input:focus, .personalize textarea:focus { border-color: var(--rose); box-shadow: 0 0 0 3px #e1a8b91c; }
     .personalize .editor-note { margin: 8px 0 0; color: #ad96a5; font-size: 10px; line-height: 1.6; }
+
+    .reaction-area { position: relative; margin-top: 28px; padding-top: 19px; border-top: 1px solid #d8c1b8; text-align: center; }
+    .reaction-title { color: #98647a; font-size: 9px; letter-spacing: .2em; text-transform: uppercase; }
+    .reaction-buttons { display: flex; justify-content: center; flex-wrap: wrap; gap: 7px; margin-top: 12px; }
+    .reaction-buttons .reaction { min-height: 40px; padding: 10px 12px; border-color: #c9a9b3; color: #75495e; background: #fff9f477; font-size: 9px; letter-spacing: .04em; }
+    .reaction-buttons .reaction[aria-pressed="true"] { color: #fff7f8; background: #9b647b; border-color: #9b647b; }
+    .reaction-feedback { min-height: 18px; margin: 10px 0 0; color: #98647a; font: italic 16px "Cormorant Garamond", Georgia, serif; }
+    .reply-copy { margin-top: 4px; min-height: 38px; padding: 9px 13px; border-color: #c9a9b3; color: #75495e; background: transparent; font-size: 9px; }
+    .reply-copy[hidden] { display: none; }
+
     .actions button.secondary { border-color: #80647b; color: #d8c5d2; }
     @media (max-width: 520px) { .personalize { padding: 17px; } }
 
@@ -235,6 +245,16 @@ This letter carries no expectations. Just a gentle reminder that somewhere, some
 
 Stay exactly as lovely as you are. ♥</p>
       <p class="signature">With warmth,<br><span id="senderDisplay">Someone who cares</span> ♡</p>
+      <div class="reaction-area" id="reactionArea" aria-label="Your reaction">
+        <div class="reaction-title">A little response, if you wish</div>
+        <div class="reaction-buttons">
+          <button class="reaction" type="button" data-reaction="smile">☺ It made me smile</button>
+          <button class="reaction" type="button" data-reaction="touched">♡ That touched me</button>
+          <button class="reaction" type="button" data-reaction="reply">✉ I want to reply</button>
+        </div>
+        <p class="reaction-feedback" id="reactionFeedback" aria-live="polite"></p>
+        <button class="reply-copy" id="copyReply" type="button" hidden>Copy a little reply ↗</button>
+      </div>
     </section>
 
     <div class="actions">
@@ -388,6 +408,35 @@ Stay exactly as lovely as you are. ♥</p>
         if (error.name !== "AbortError") hint.textContent = "✧ Could not share right now — try again ✧";
       }
     });
+    // Lightweight reactions are local to the visitor; no response is sent or tracked.
+    const reactionFeedback = document.getElementById("reactionFeedback");
+    const copyReply = document.getElementById("copyReply");
+    const reactionReplies = {
+      smile: "Your letter made me smile. Thank you for thinking of me. ♡",
+      touched: "Your words truly touched my heart. I'll keep them close. ♡",
+      reply: "I read your letter, and I'd love to talk with you. ✉"
+    };
+    document.querySelectorAll("[data-reaction]").forEach(button => {
+      button.addEventListener("click", () => {
+        document.querySelectorAll("[data-reaction]").forEach(item => item.setAttribute("aria-pressed", String(item === button)));
+        const selected = button.dataset.reaction;
+        reactionFeedback.textContent = selected === "smile" ? "A little happiness sent back your way. ♡" :
+          selected === "touched" ? "Some words stay with us. Thank you. ♡" :
+          "A reply is ready whenever you are. ✉";
+        copyReply.hidden = false;
+        copyReply.dataset.reply = reactionReplies[selected];
+      });
+    });
+    copyReply.addEventListener("click", async () => {
+      const reply = copyReply.dataset.reply || "";
+      try {
+        await navigator.clipboard.writeText(reply);
+        copyReply.textContent = "Reply copied ✓";
+      } catch {
+        window.prompt("Copy your reply:", reply);
+      }
+    });
+
     const incoming = new URLSearchParams(location.search);
     if (incoming.has("text") || incoming.has("to") || incoming.has("from")) {
       applyLetter({ to: incoming.get("to"), from: incoming.get("from"), text: incoming.get("text") });
