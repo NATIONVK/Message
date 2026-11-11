@@ -181,6 +181,9 @@
     .personalize input:focus, .personalize textarea:focus { border-color: var(--rose); box-shadow: 0 0 0 3px #e1a8b91c; }
     .personalize .editor-note { margin: 8px 0 0; color: #ad96a5; font-size: 10px; line-height: 1.6; }
 
+    .listen-row { position: relative; display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 9px; margin-top: 22px; }
+    .listen-button { min-height: 40px; padding: 10px 15px; border-color: #c9a9b3; color: #75495e; background: #fff9f477; font-size: 9px; letter-spacing: .08em; }
+    .listen-status { color: #98647a; font: italic 14px "Cormorant Garamond", Georgia, serif; }
     .reaction-area { position: relative; margin-top: 28px; padding-top: 19px; border-top: 1px solid #d8c1b8; text-align: center; }
     .reaction-title { color: #98647a; font-size: 9px; letter-spacing: .2em; text-transform: uppercase; }
     .reaction-buttons { display: flex; justify-content: center; flex-wrap: wrap; gap: 7px; margin-top: 12px; }
@@ -245,6 +248,10 @@ This letter carries no expectations. Just a gentle reminder that somewhere, some
 
 Stay exactly as lovely as you are. ♥</p>
       <p class="signature">With warmth,<br><span id="senderDisplay">Someone who cares</span> ♡</p>
+      <div class="listen-row">
+        <button id="listenLetter" class="listen-button" type="button">♫ Listen to this letter</button>
+        <span id="listenStatus" class="listen-status" aria-live="polite">A voice can read these words aloud</span>
+      </div>
       <div class="reaction-area" id="reactionArea" aria-label="Your reaction">
         <div class="reaction-title">A little response, if you wish</div>
         <div class="reaction-buttons">
@@ -297,6 +304,7 @@ Stay exactly as lovely as you are. ♥</p>
       reveal.hidden = true;
     }
     function closeLetter() {
+      stopReading();
       envelope.classList.remove("open");
       envelope.setAttribute("aria-expanded", "false");
       letter.classList.remove("show");
@@ -408,6 +416,54 @@ Stay exactly as lovely as you are. ♥</p>
         if (error.name !== "AbortError") hint.textContent = "✧ Could not share right now — try again ✧";
       }
     });
+    // Optional browser text-to-speech. Nothing is uploaded or recorded.
+    const listenButton = document.getElementById("listenLetter");
+    const listenStatus = document.getElementById("listenStatus");
+    let activeUtterance = null;
+    function stopReading() {
+      if ("speechSynthesis" in window) window.speechSynthesis.cancel();
+      activeUtterance = null;
+      listenButton.textContent = "♫ Listen to this letter";
+      listenStatus.textContent = "A voice can read these words aloud";
+    }
+    listenButton.addEventListener("click", () => {
+      if (!("speechSynthesis" in window) || !("SpeechSynthesisUtterance" in window)) {
+        listenStatus.textContent = "Speech reading is not supported in this browser.";
+        return;
+      }
+      if (activeUtterance) {
+        stopReading();
+        return;
+      }
+      const messageText = document.getElementById("message").textContent.trim();
+      const fullText = "Dear " + recipientDisplay.textContent + ". " + messageText +
+        ". With warmth, " + senderDisplay.textContent + ".";
+      const utterance = new SpeechSynthesisUtterance(fullText);
+      const isBangla = /[\\u0980-\\u09FF]/.test(fullText);
+      utterance.lang = isBangla ? "bn-BD" : "en-US";
+      const availableVoices = window.speechSynthesis.getVoices();
+      const preferredVoice = availableVoices.find(voice => voice.lang.toLowerCase() === utterance.lang.toLowerCase()) ||
+        availableVoices.find(voice => voice.lang.toLowerCase().startsWith(isBangla ? "bn" : "en"));
+      if (preferredVoice) utterance.voice = preferredVoice;
+      utterance.rate = 0.88;
+      utterance.pitch = 1;
+      utterance.onend = () => {
+        activeUtterance = null;
+        listenButton.textContent = "♫ Listen again";
+        listenStatus.textContent = "A little moment, read aloud. ♡";
+      };
+      utterance.onerror = () => {
+        activeUtterance = null;
+        listenButton.textContent = "♫ Try reading again";
+        listenStatus.textContent = "Voice playback could not start on this device.";
+      };
+      activeUtterance = utterance;
+      listenButton.textContent = "Ⅱ Stop reading";
+      listenStatus.textContent = isBangla ? "Reading in Bangla when a voice is available…" : "Reading aloud…";
+      window.speechSynthesis.cancel();
+      window.speechSynthesis.speak(utterance);
+    });
+
     // Lightweight reactions are local to the visitor; no response is sent or tracked.
     const reactionFeedback = document.getElementById("reactionFeedback");
     const copyReply = document.getElementById("copyReply");
