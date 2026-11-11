@@ -162,6 +162,27 @@
     @keyframes rise { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes floatUp { 0% { transform: translateY(0) rotate(0); opacity: 0; } 15% { opacity: .42; } 85% { opacity: .28; } 100% { transform: translateY(-110vh) rotate(35deg); opacity: 0; } }
     @keyframes drift { from { transform: translate3d(0,0,0) scale(.9); } to { transform: translate3d(12vw,-8vh,0) scale(1.2); } }
+
+    .personalize {
+      display: none; margin: 24px auto 0; padding: 22px; max-width: 520px;
+      text-align: left; border: 1px solid #d8a9bc55; border-radius: 8px;
+      background: linear-gradient(145deg, #241624eF, #17101eF);
+      box-shadow: 0 18px 50px #0005; animation: rise .45s both;
+    }
+    .personalize.show { display: block; }
+    .personalize h3 { margin: 0 0 7px; color: var(--rose-bright); font: 500 27px "Cormorant Garamond", Georgia, serif; }
+    .personalize label { display: block; margin: 14px 0 6px; color: var(--gold); font-size: 9px; letter-spacing: .17em; text-transform: uppercase; }
+    .personalize input, .personalize textarea {
+      display: block; width: 100%; padding: 12px 13px; border: 1px solid #a77c9066;
+      border-radius: 4px; outline: none; color: var(--ink); background: #ffffff09;
+      font: 13px/1.6 "DM Sans", sans-serif;
+    }
+    .personalize textarea { min-height: 130px; resize: vertical; }
+    .personalize input:focus, .personalize textarea:focus { border-color: var(--rose); box-shadow: 0 0 0 3px #e1a8b91c; }
+    .personalize .editor-note { margin: 8px 0 0; color: #ad96a5; font-size: 10px; line-height: 1.6; }
+    .actions button.secondary { border-color: #80647b; color: #d8c5d2; }
+    @media (max-width: 520px) { .personalize { padding: 17px; } }
+
     @media (max-width: 520px) {
       body { padding: 30px 15px 22px; }
       .scene { height: 225px; }
@@ -203,7 +224,7 @@
 
     <section class="letter" id="letter" aria-hidden="true">
       <div class="letter-top">A little something, just for you</div>
-      <h2>Dear Someone,</h2>
+      <h2>Dear <span id="recipientDisplay">Someone</span>,</h2>
       <p id="message">There are some people who make ordinary days feel quietly extraordinary.
 
 I don't know how to put every feeling into words, but I hope you know that your presence means something beautiful.
@@ -213,13 +234,29 @@ Sometimes, a simple smile or a little conversation can make an entire day softer
 This letter carries no expectations. Just a gentle reminder that somewhere, someone is wishing you happiness.
 
 Stay exactly as lovely as you are. ♥</p>
-      <p class="signature">With warmth,<br>Someone who cares ♡</p>
+      <p class="signature">With warmth,<br><span id="senderDisplay">Someone who cares</span> ♡</p>
     </section>
 
     <div class="actions">
       <button id="reveal" type="button">Open the letter ↗</button>
       <button class="close" id="reset" type="button">Fold it away ↺</button>
+      <button class="secondary" id="editToggle" type="button">Personalize ✦</button>
+      <button class="secondary" id="share" type="button">Share this letter ↗</button>
     </div>
+    <section class="personalize" id="personalize" aria-label="Personalize your letter">
+      <h3>Make it yours.</h3>
+      <p class="editor-note">Add a name and your own words. Then share a private link that opens with your message.</p>
+      <label for="recipientInput">Recipient's name</label>
+      <input id="recipientInput" maxlength="40" placeholder="Someone special">
+      <label for="senderInput">Your signature</label>
+      <input id="senderInput" maxlength="40" placeholder="Someone who cares">
+      <label for="messageInput">Your message</label>
+      <textarea id="messageInput" maxlength="1600" placeholder="Write something from the heart..."></textarea>
+      <div class="actions">
+        <button id="applyMessage" type="button">Save changes ✓</button>
+        <button id="resetMessage" class="secondary" type="button">Restore original</button>
+      </div>
+    </section>
     <footer>Made of quiet feelings · NATIONVK</footer>
   </main>
   <script>
@@ -292,6 +329,68 @@ Stay exactly as lovely as you are. ♥</p>
         petal.style.fontSize = (12 + Math.random() * 12) + "px";
         document.body.appendChild(petal);
       }
+    }
+
+    // Personal letter editor and shareable, URL-encoded message links.
+    const editor = document.getElementById("personalize");
+    const editToggle = document.getElementById("editToggle");
+    const recipientInput = document.getElementById("recipientInput");
+    const senderInput = document.getElementById("senderInput");
+    const messageInput = document.getElementById("messageInput");
+    const recipientDisplay = document.getElementById("recipientDisplay");
+    const senderDisplay = document.getElementById("senderDisplay");
+    const originalMessage = document.getElementById("message").textContent.trim();
+    const defaultRecipient = "Someone";
+    const defaultSender = "Someone who cares";
+
+    function applyLetter(data) {
+      const recipient = (data.to || defaultRecipient).slice(0, 40);
+      const sender = (data.from || defaultSender).slice(0, 40);
+      const words = (data.text || originalMessage).slice(0, 1600);
+      recipientDisplay.textContent = recipient;
+      senderDisplay.textContent = sender;
+      document.getElementById("message").textContent = words;
+      recipientInput.value = recipient === defaultRecipient ? "" : recipient;
+      senderInput.value = sender === defaultSender ? "" : sender;
+      messageInput.value = words;
+    }
+    editToggle.addEventListener("click", () => {
+      editor.classList.toggle("show");
+      if (editor.classList.contains("show")) editor.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "nearest" });
+    });
+    document.getElementById("applyMessage").addEventListener("click", () => {
+      applyLetter({ to: recipientInput.value.trim(), from: senderInput.value.trim(), text: messageInput.value.trim() });
+      hint.textContent = "✧ Your words are now in the letter ✧";
+      editor.classList.remove("show");
+    });
+    document.getElementById("resetMessage").addEventListener("click", () => {
+      applyLetter({ to: defaultRecipient, from: defaultSender, text: originalMessage });
+      history.replaceState({}, "", location.pathname);
+      hint.textContent = "✧ Original letter restored ✧";
+    });
+    document.getElementById("share").addEventListener("click", async () => {
+      const params = new URLSearchParams({
+        to: recipientDisplay.textContent,
+        from: senderDisplay.textContent,
+        text: document.getElementById("message").textContent
+      });
+      const shareUrl = location.origin + location.pathname + "?" + params.toString();
+      const shareData = { title: "A little letter for you", text: "Someone has a little message for you.", url: shareUrl };
+      try {
+        if (navigator.share) await navigator.share(shareData);
+        else if (navigator.clipboard && window.isSecureContext) {
+          await navigator.clipboard.writeText(shareUrl);
+          hint.textContent = "✧ Share link copied to clipboard ✧";
+        } else {
+          window.prompt("Copy your personal letter link:", shareUrl);
+        }
+      } catch (error) {
+        if (error.name !== "AbortError") hint.textContent = "✧ Could not share right now — try again ✧";
+      }
+    });
+    const incoming = new URLSearchParams(location.search);
+    if (incoming.has("text") || incoming.has("to") || incoming.has("from")) {
+      applyLetter({ to: incoming.get("to"), from: incoming.get("from"), text: incoming.get("text") });
     }
   </script>
 </body>
